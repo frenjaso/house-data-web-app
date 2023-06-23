@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Express App</title>
+</head>
+<body>
+<h1>Welcome to my Express app!</h1>
+
+<ul>
+    <% for (var i = 0; i < items.length; i++) { %>
+        <li><%= `${items[i].date}T${items[i].time} | pmt2.5: ${items[i].pmt25}` %></li>
+    <% } %>
+</ul>
+
+</body>
+</html>
