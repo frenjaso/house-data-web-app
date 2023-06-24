@@ -9,8 +9,13 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+console.log("__dirname: " + __dirname)
+
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
+app.use(express.static(`${__dirname}/public`));
+app.use('/jason', express.static(`${__dirname}/node_modules/chart.js/auto/`));
+
 
 // Use the routes middleware
 app.use('/', routes);

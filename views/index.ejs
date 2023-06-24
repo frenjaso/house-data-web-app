@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html>
+<!Doctype html>
+<html lang="en">
 <head>
-    <title>My Express App</title>
+    <title>Chart.js example</title>
 </head>
 <body>
-<h1>Welcome to my Express app!</h1>
+<!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
+<div style="width: 100%"><canvas id="acquisitions"></canvas></div>
 
-<ul>
-    <% for (var i = 0; i < items.length; i++) { %>
-        <li><%= `${items[i].date}T${items[i].time} | pmt2.5: ${items[i].pmt25}` %></li>
-    <% } %>
-</ul>
+<!-- <script type="module" src="dimensions.js"></script> -->
 
+<script>
+    const items = JSON.parse('<%- items %>');
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.js"></script>
+<script type="module" src="acquisitions.js"></script>
 </body>
 </html>
