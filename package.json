@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "debug": "/usr/local/bin/node app.mjs"
+    "debug": "/usr/local/bin/node app.mjs",
+    "dataReductionTest": "/usr/local/bin/node tests/dataReduction.mjs"
   },
   "author": "",
   "license": "ISC",

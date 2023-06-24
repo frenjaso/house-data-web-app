@@ -32,6 +32,13 @@ export async function getData() {
     return todayData
 }
 
+function reduceData(todayData, yesterdayData) {
+    const combinedData = yesterdayData.concat(todayData);
+
+    const latestDataPoint = todayData[todayData.length - 1];
+    const latestTime = latestDataPoint.time;
+}
+
 function getDateString(date) {
     let currentDay= String(date.getDate()).padStart(2, '0');
     let currentMonth = String(date.getMonth()+1).padStart(2,"0");
