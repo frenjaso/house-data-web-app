@@ -1,5 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import reduceData from "../helpers/dataReducer.mjs";
 
 
 export async function getData() {
@@ -29,15 +30,17 @@ export async function getData() {
     console.log(todayData);
     console.log(yesterdayData);
 
-    return todayData
+    const twoDayData = yesterdayData.Items.concat(todayData.Items);
+
+    return reduceData(twoDayData);
 }
 
-function reduceData(todayData, yesterdayData) {
-    const combinedData = yesterdayData.concat(todayData);
-
-    const latestDataPoint = todayData[todayData.length - 1];
-    const latestTime = latestDataPoint.time;
-}
+// function reduceData(todayData, yesterdayData) {
+//     const combinedData = yesterdayData.concat(todayData);
+//
+//     const latestDataPoint = todayData[todayData.length - 1];
+//     const latestTime = latestDataPoint.time;
+// }
 
 function getDateString(date) {
     let currentDay= String(date.getDate()).padStart(2, '0');

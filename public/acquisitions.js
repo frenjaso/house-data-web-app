@@ -18,7 +18,7 @@
                 labels: items.map(row => row.time),
                 datasets: [
                     {
-                        label: 'Acquisitions by year',
+                        label: 'pm2.5',
                         data: items.map(row => row.pmt25)
                     }
                 ]

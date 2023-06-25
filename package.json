@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "debug": "/usr/local/bin/node app.mjs",
-    "dataReductionTest": "/usr/local/bin/node tests/dataReduction.mjs"
+    "dataReducerTest": "/usr/local/bin/node tests/dataReducerTest.mjs"
   },
   "author": "",
   "license": "ISC",

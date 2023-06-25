@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 
-    const data = await getData();
-    console.log(JSON.stringify(data.Items[0]));
+    const items = await getData();
+    // console.log(JSON.stringify(data.Items[0]));
 
-    res.render('index', { items: JSON.stringify(data.Items) });
+    res.render('index', { items: JSON.stringify(items) });
     // res.render('index');
 });
 
