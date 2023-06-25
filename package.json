@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "debug": "/usr/local/bin/node app.mjs",
+    "start": "node app.mjs",
     "dataReducerTest": "/usr/local/bin/node tests/dataReducerTest.mjs"
   },
   "author": "",
