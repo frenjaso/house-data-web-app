@@ -1,6 +1,15 @@
 import { getDateString, getTimeString } from './dateUtils.mjs'
 
-export default function reduceData(data) {
+export function getDataByPeriod(data, periodInMinutes) {
+    const reducedData = reduceData(data, 3, 50 * 1000);
+    if (periodInMinutes <= 1) {
+        return reducedData;
+    } else {
+        return reduceData(reducedData, periodInMinutes, periodInMinutes * 60000 + 40000);
+    }
+}
+
+export function reduceData(data, maxNumberOfDataPointsPerAverage, maxDataPointTimeSpanMillis) {
     data.forEach(item => {
         item.dateTime = new Date(`${item.date}T${item.time}`)
     })
@@ -9,23 +18,19 @@ export default function reduceData(data) {
 
     let i = 0;
     while (i < data.length) {
-        // const dataPoint = data[i];
         const dataPointsToAverage = [ data[i] ];
 
         i++;
-        while (i < data.length) {
+        while (i < data.length && dataPointsToAverage.length < maxNumberOfDataPointsPerAverage) {
             const nextDataPoint = data[i];
-            if (Math.abs(nextDataPoint.dateTime - dataPointsToAverage[dataPointsToAverage.length - 1].dateTime) < 20000) {
+            if (Math.abs(nextDataPoint.dateTime - dataPointsToAverage[0].dateTime) < maxDataPointTimeSpanMillis) {
                 dataPointsToAverage.push(nextDataPoint)
             } else {
-                averagedDataPoints.push(getAverageDataPoint(dataPointsToAverage))
                 break;
             }
             i++;
-            if (i === data.length) {
-                averagedDataPoints.push(getAverageDataPoint(dataPointsToAverage))
-            }
         }
+        averagedDataPoints.push(getAverageDataPoint(dataPointsToAverage))
     }
     return averagedDataPoints;
 }
@@ -52,31 +57,4 @@ function getAverageDataPoint(dataPointsToAverage) {
         pmt10: pmt10Average,
         pmt25: pmt25Average
     }
-}
-
-export function reduceDataParameterized(data, numberOfDataPointsPerAverage, maxDataPointTimeSpanMillis) {
-    data.forEach(item => {
-        item.dateTime = new Date(`${item.date}T${item.time}`)
-    })
-
-    const averagedDataPoints = [];
-
-    let i = 0;
-    while (i < data.length) {
-        // const dataPoint = data[i];
-        const dataPointsToAverage = [ data[i] ];
-
-        i++;
-        while (i < data.length && dataPointsToAverage.length < numberOfDataPointsPerAverage) {
-            const nextDataPoint = data[i];
-            if (Math.abs(nextDataPoint.dateTime - dataPointsToAverage[dataPointsToAverage.length - 1].dateTime) < maxDataPointTimeSpanMillis) {
-                dataPointsToAverage.push(nextDataPoint)
-            } else {
-                break;
-            }
-            i++;
-        }
-        averagedDataPoints.push(getAverageDataPoint(dataPointsToAverage))
-    }
-    return averagedDataPoints;
 }

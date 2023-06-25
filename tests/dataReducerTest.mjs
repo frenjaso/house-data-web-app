@@ -1,10 +1,9 @@
 import data from './testData.mjs'
-import reduceData from "../helpers/dataReducer.mjs";
-import { reduceDataParameterized } from "../helpers/dataReducer.mjs";
+import { reduceData } from "../helpers/dataReducer.mjs";
 
 
-const reducedData = reduceDataParameterized(data, 3, 20000);
-const fiveMinuteData = reduceDataParameterized(reducedData, 5, 80000);
+const reducedData = reduceData(data, 3, 50000);
+const fiveMinuteData = reduceData(reducedData, 5, 360000);
 
 console.log(`data.length: ${data.length}`);
 console.log(`reducedData.length: ${reducedData.length}`);

@@ -1,12 +1,12 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
-import reduceData from "../helpers/dataReducer.mjs";
+import { getDataByPeriod } from "../helpers/dataReducer.mjs";
 
 
-export async function getData() {
-    const today = new Date();
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
+export async function getData(periodInMinutes, daysOfData) {
+    // const today = new Date();
+    // const yesterday = new Date();
+    // yesterday.setDate(yesterday.getDate() - 1);
 
 
     const client = new DynamoDBClient({
@@ -19,23 +19,35 @@ export async function getData() {
 
     const documentClient = new DynamoDBDocumentClient(client)
 
-    const requests = [
-        makeRequest(documentClient, today),
-        makeRequest(documentClient, yesterday),
-    ]
+    const requests = getRequestArray(documentClient, daysOfData);
 
     console.info("Waiting on data requests...")
-    const [todayData, yesterdayData] = await Promise.all(requests);
+    const responses = await Promise.all(requests);
+    const itemsArrays = responses.map(response => response.Items);
+    const concatenatedData = itemsArrays.flat(1);
     console.info("Requests complete")
 
     const start = Date.now();
-    const twoDayData = yesterdayData.Items.concat(todayData.Items);
-    const reducedData = reduceData(twoDayData);
+
+    // const twoDayData = yesterdayData.Items.concat(todayData.Items);
+    const reducedData = getDataByPeriod(concatenatedData, periodInMinutes);
     const end = Date.now();
 
     console.log(`Data reduction latency: ${(end - start)}`);
 
     return reducedData;
+}
+
+function getRequestArray(documentClient, daysOfData) {
+    const requests = [];
+
+    for (let i = daysOfData - 1; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        requests.push(makeRequest(documentClient, date));
+    }
+
+    return requests;
 }
 
 function getDateString(date) {
