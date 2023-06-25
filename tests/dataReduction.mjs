@@ -34,6 +34,9 @@ while (i < data.length) {
             break;
         }
         i++;
+        if (i === data.length) {
+            averagedDataPoints.push(getAverageDataPoint(dataPointsToAverage))
+        }
     }
 }
 
