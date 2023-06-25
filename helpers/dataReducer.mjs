@@ -53,3 +53,30 @@ function getAverageDataPoint(dataPointsToAverage) {
         pmt25: pmt25Average
     }
 }
+
+export function reduceDataParameterized(data, numberOfDataPointsPerAverage, maxDataPointTimeSpanMillis) {
+    data.forEach(item => {
+        item.dateTime = new Date(`${item.date}T${item.time}`)
+    })
+
+    const averagedDataPoints = [];
+
+    let i = 0;
+    while (i < data.length) {
+        // const dataPoint = data[i];
+        const dataPointsToAverage = [ data[i] ];
+
+        i++;
+        while (i < data.length && dataPointsToAverage.length < numberOfDataPointsPerAverage) {
+            const nextDataPoint = data[i];
+            if (Math.abs(nextDataPoint.dateTime - dataPointsToAverage[dataPointsToAverage.length - 1].dateTime) < maxDataPointTimeSpanMillis) {
+                dataPointsToAverage.push(nextDataPoint)
+            } else {
+                break;
+            }
+            i++;
+        }
+        averagedDataPoints.push(getAverageDataPoint(dataPointsToAverage))
+    }
+    return averagedDataPoints;
+}

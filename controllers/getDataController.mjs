@@ -24,23 +24,19 @@ export async function getData() {
         makeRequest(documentClient, yesterday),
     ]
 
+    console.info("Waiting on data requests...")
     const [todayData, yesterdayData] = await Promise.all(requests);
+    console.info("Requests complete")
 
-    console.log("Requests Complete");
-    console.log(todayData);
-    console.log(yesterdayData);
-
+    const start = Date.now();
     const twoDayData = yesterdayData.Items.concat(todayData.Items);
+    const reducedData = reduceData(twoDayData);
+    const end = Date.now();
 
-    return reduceData(twoDayData);
+    console.log(`Data reduction latency: ${(end - start)}`);
+
+    return reducedData;
 }
-
-// function reduceData(todayData, yesterdayData) {
-//     const combinedData = yesterdayData.concat(todayData);
-//
-//     const latestDataPoint = todayData[todayData.length - 1];
-//     const latestTime = latestDataPoint.time;
-// }
 
 function getDateString(date) {
     let currentDay= String(date.getDate()).padStart(2, '0');
@@ -53,7 +49,6 @@ function getDateString(date) {
 
 async function makeRequest(documentClient, date) {
     const dateValue = getDateString(date);
-    console.log(dateValue);
 
     const query = {
         TableName: "ParticulateData",
@@ -70,12 +65,10 @@ async function makeRequest(documentClient, date) {
     const queryCommand = new QueryCommand(query)
 
     const start = Date.now();
-
     const response = await documentClient.send(queryCommand)
     const end = Date.now();
 
-    console.log(`${dateValue} - Latency: ${(end - start)}`);
-    // console.log(response);
+    console.log(`${dateValue} - Data request latency: ${(end - start)}`);
 
     return response;
 }
