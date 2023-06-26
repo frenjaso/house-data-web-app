@@ -1,7 +1,7 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import webPageController from './controllers/webPageController.mjs';
+import webPageController from './controllers/indexController.mjs';
 import foo from './foo.mjs'
 
 const app = express();
