@@ -33,3 +33,7 @@ function getRequestArray(daysOfData) {
 
     return dates;
 }
+
+const myDate = new Date('2023-06-26');
+
+console.log(myDate);

@@ -1,3 +1,15 @@
+export function getDisplayDateTime(date) {
+    let currentDay= String(date.getDate());
+    let currentMonth = String(date.getMonth()+1)
+
+    let currentHour = String(date.getHours()).padStart(2, '0');
+    let currentMinute = String(date.getMinutes()).padStart(2,"0");
+    let currentSecond = String(date.getSeconds()).padStart(2,"0");
+
+    let currentDateTime = `${currentMonth}/${currentDay} - ${currentHour}:${currentMinute}:${currentSecond}`;
+    return currentDateTime;
+}
+
 export function getTimeString(date) {
     let currentHour = String(date.getHours()).padStart(2, '0');
     let currentMinute = String(date.getMinutes()).padStart(2,"0");

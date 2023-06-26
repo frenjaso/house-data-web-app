@@ -1,4 +1,4 @@
-import { getDateString, getTimeString } from './dateUtils.mjs'
+import { getDateString, getTimeString, getDisplayDateTime } from './dateUtils.mjs'
 
 const millisPerDay = 60 * 60 * 24 * 1000;
 
@@ -8,6 +8,7 @@ export function getDataByPeriod(data, periodInMinutes, daysOfData) {
         const date = new Date(item.epoch);
         item.date = getDateString(date);
         item.time = getTimeString(date);
+        item.datetime = getDisplayDateTime(date)
     })
     return reducedData;
 }
