@@ -1,5 +1,5 @@
 import express from 'express';
-import { getData } from './controllers/getDataController.mjs'
+import { getData } from '../helpers/particulateDataRetriever.mjs'
 
 const router = express.Router();
 

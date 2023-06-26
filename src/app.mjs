@@ -1,7 +1,8 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import routes from './routes.mjs';
+import webPageController from './controllers/webPageController.mjs';
+import foo from './foo.mjs'
 
 const app = express();
 
@@ -14,11 +15,11 @@ console.log("__dirname: " + __dirname)
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 app.use(express.static(`${__dirname}/public`));
-app.use('/jason', express.static(`${__dirname}/node_modules/chart.js/auto/`));
 
 
 // Use the routes middleware
-app.use('/', routes);
+app.use('/', webPageController);
+app.use('/foo', foo);
 
 // Start the server
 const port = 3000;

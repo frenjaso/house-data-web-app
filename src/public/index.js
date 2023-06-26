@@ -1,7 +1,7 @@
 (async function() {
 
     new Chart(
-        document.getElementById('acquisitions'),
+        document.getElementById('particulateChart'),
         {
             type: 'line',
             data: {
