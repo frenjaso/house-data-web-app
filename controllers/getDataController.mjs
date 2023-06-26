@@ -4,10 +4,6 @@ import { getDataByPeriod } from "../helpers/dataReducer.mjs";
 
 
 export async function getData(periodInMinutes, daysOfData) {
-    // const today = new Date();
-    // const yesterday = new Date();
-    // yesterday.setDate(yesterday.getDate() - 1);
-
 
     const client = new DynamoDBClient({
         region: "us-east-1",

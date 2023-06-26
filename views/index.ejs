@@ -11,6 +11,13 @@
 
 <script>
     const items = JSON.parse('<%- items %>');
+    const autoReload = 'true' === '<%= autoReload %>';
+
+    if (autoReload) {
+        setTimeout(function(){
+            window.location.reload();
+        }, 60000);
+    }
 </script>
 
 
