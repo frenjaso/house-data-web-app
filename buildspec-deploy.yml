@@ -1,0 +1,5 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - aws ecs update-service --cluster house-data-web-app-cluster --service house-data-web-app-2 --force-new-deployment
