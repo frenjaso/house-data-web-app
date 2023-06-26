@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "debug": "/usr/local/bin/node app.mjs",
-    "start": "node app.mjs",
+    "debug": "/usr/local/bin/node src/app.mjs",
+    "start": "node src/app.mjs",
     "dataReducerTest": "/usr/local/bin/node tests/dataReducerTest.mjs",
     "pstDateTest": "/usr/local/bin/node tests/pstDateTest.mjs"
   },

@@ -1,4 +1,4 @@
-import {getTimeString, getDateString} from "../helpers/dateUtils.mjs";
+import {getTimeString, getDateString} from "../src/helpers/dateUtils.mjs";
 
 
 const date = new Date(1687590023333);

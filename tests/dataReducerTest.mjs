@@ -1,5 +1,5 @@
 import data from './testData.mjs'
-import { reduceData } from "../helpers/dataReducer.mjs";
+import { reduceData } from "../src/helpers/dataReducer.mjs";
 
 
 const reducedData = reduceData(data, 3, 50000);
