@@ -1,6 +1,20 @@
 import { getDateString, getTimeString } from './dateUtils.mjs'
 
 export function getDataByPeriod(data, periodInMinutes) {
+    const reducedData = getRawReducedDataByPeriod(data, periodInMinutes);
+    reducedData.forEach(item => {
+        const date = new Date(item.epoch);
+        item.date = getDateString(date);
+        item.time = getTimeString(date);
+    })
+    return reducedData;
+}
+
+function getRawReducedDataByPeriod(data, periodInMinutes) {
+    data.forEach(item => {
+        item.epoch = new Date(`${item.date}T${item.time}.000Z`).getTime()
+    })
+
     const reducedData = reduceData(data, 3, 50 * 1000);
     if (periodInMinutes <= 1) {
         return reducedData;
@@ -10,10 +24,6 @@ export function getDataByPeriod(data, periodInMinutes) {
 }
 
 export function reduceData(data, maxNumberOfDataPointsPerAverage, maxDataPointTimeSpanMillis) {
-    data.forEach(item => {
-        item.dateTime = new Date(`${item.date}T${item.time}.000Z`)
-    })
-
     const averagedDataPoints = [];
 
     let i = 0;
@@ -23,7 +33,7 @@ export function reduceData(data, maxNumberOfDataPointsPerAverage, maxDataPointTi
         i++;
         while (i < data.length && dataPointsToAverage.length < maxNumberOfDataPointsPerAverage) {
             const nextDataPoint = data[i];
-            if (Math.abs(nextDataPoint.dateTime - dataPointsToAverage[0].dateTime) < maxDataPointTimeSpanMillis) {
+            if (Math.abs(nextDataPoint.epoch - dataPointsToAverage[0].epoch) < maxDataPointTimeSpanMillis) {
                 dataPointsToAverage.push(nextDataPoint)
             } else {
                 break;
@@ -42,7 +52,7 @@ function getAverageDataPoint(dataPointsToAverage) {
     dataPointsToAverage.forEach(dataPoint => {
         pmt10Sum += dataPoint.pmt10;
         pmt25Sum += dataPoint.pmt25;
-        epochSum += dataPoint.dateTime.getTime();
+        epochSum += dataPoint.epoch;
     })
 
     const pmt10Average = pmt10Sum / dataPointsToAverage.length;
@@ -52,8 +62,6 @@ function getAverageDataPoint(dataPointsToAverage) {
 
     return {
         epoch: averageDateTime.getTime(),
-        date: getDateString(averageDateTime),
-        time: getTimeString(averageDateTime),
         pmt10: pmt10Average,
         pmt25: pmt25Average
     }
