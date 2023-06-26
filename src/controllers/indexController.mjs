@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     const periodInMinutes = req.query.periodInMinutes != null ? req.query.periodInMinutes : 1;
-    const daysOfData = req.query.daysOfData != null ? req.query.daysOfData : 2;
+    const daysOfData = req.query.daysOfData != null ? Number.parseFloat(req.query.daysOfData) : 1;
     const autoReload = req.query.autoReload === 'true';
 
     const items = await getData(periodInMinutes, daysOfData);

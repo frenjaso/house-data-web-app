@@ -7,7 +7,8 @@
     "debug": "/usr/local/bin/node src/app.mjs",
     "start": "node src/app.mjs",
     "dataReducerTest": "/usr/local/bin/node tests/dataReducerTest.mjs",
-    "pstDateTest": "/usr/local/bin/node tests/pstDateTest.mjs"
+    "pstDateTest": "/usr/local/bin/node tests/pstDateTest.mjs",
+    "randomTest": "/usr/local/bin/node tests/randomTest.mjs"
   },
   "author": "",
   "license": "ISC",

@@ -5,18 +5,20 @@ import { particulateDataRequest } from "./clients/dynamoDbClient.mjs";
 export async function getData(periodInMinutes, daysOfData) {
     const documentClient = getDynamoDocumentClient();
 
-    const requests = getRequestArray(documentClient, daysOfData);
+    const requests = getRequestArray(documentClient, Math.ceil(daysOfData + 1));
 
     console.info("Waiting on data requests...")
 
     const responses = await Promise.all(requests);
-    const itemsArrays = responses.map(response => response.Items);
-    const concatenatedData = itemsArrays.flat(1);
 
     console.info("Requests complete")
 
     const start = Date.now();
-    const reducedData = getDataByPeriod(concatenatedData, periodInMinutes);
+
+    const itemsArrays = responses.map(response => response.Items);
+    const concatenatedData = itemsArrays.flat(1);
+    const reducedData = getDataByPeriod(concatenatedData, periodInMinutes, daysOfData);
+
     const end = Date.now();
 
     console.log(`Data reduction latency: ${(end - start)}`);
@@ -27,8 +29,9 @@ export async function getData(periodInMinutes, daysOfData) {
 function getRequestArray(documentClient, daysOfData) {
     const requests = [];
 
+    const currentDate = new Date();
     for (let i = daysOfData - 1; i >= 0; i--) {
-        const date = new Date();
+        const date = new Date(currentDate)
         date.setDate(date.getDate() - i);
         requests.push(particulateDataRequest(documentClient, date));
     }

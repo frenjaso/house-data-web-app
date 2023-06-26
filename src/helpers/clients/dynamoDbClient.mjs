@@ -1,8 +1,8 @@
-import { getDateString } from "../dateUtils.mjs";
+import { getUtcDateString } from "../dateUtils.mjs";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 export async function particulateDataRequest(documentClient, date) {
-    const dateValue = getDateString(date);
+    const dateValue = getUtcDateString(date);
 
     const query = {
         TableName: "ParticulateData",

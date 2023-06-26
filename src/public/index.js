@@ -5,7 +5,7 @@
         {
             type: 'line',
             data: {
-                labels: items.map(row => row.time),
+                labels: items.map(row => `${row.date}T${row.time}`),
                 datasets: [
                     {
                         label: 'pm2.5',

@@ -1,7 +1,9 @@
 import { getDateString, getTimeString } from './dateUtils.mjs'
 
-export function getDataByPeriod(data, periodInMinutes) {
-    const reducedData = getRawReducedDataByPeriod(data, periodInMinutes);
+const millisPerDay = 60 * 60 * 24 * 1000;
+
+export function getDataByPeriod(data, periodInMinutes, daysOfData) {
+    const reducedData = getRawReducedDataByPeriod(data, periodInMinutes, daysOfData);
     reducedData.forEach(item => {
         const date = new Date(item.epoch);
         item.date = getDateString(date);
@@ -10,12 +12,14 @@ export function getDataByPeriod(data, periodInMinutes) {
     return reducedData;
 }
 
-function getRawReducedDataByPeriod(data, periodInMinutes) {
+function getRawReducedDataByPeriod(data, periodInMinutes, daysOfData) {
     data.forEach(item => {
         item.epoch = new Date(`${item.date}T${item.time}.000Z`).getTime()
     })
 
-    const reducedData = reduceData(data, 3, 50 * 1000);
+    const truncatedData = getTruncatedData(data, daysOfData);
+
+    const reducedData = reduceData(truncatedData, 3, 50 * 1000);
     if (periodInMinutes <= 1) {
         return reducedData;
     } else {
@@ -43,6 +47,17 @@ export function reduceData(data, maxNumberOfDataPointsPerAverage, maxDataPointTi
         averagedDataPoints.push(getAverageDataPoint(dataPointsToAverage))
     }
     return averagedDataPoints;
+}
+
+function getTruncatedData(data, daysOfData) {
+    const startEpoch = data[data.length - 1].epoch - (daysOfData * millisPerDay);
+
+    let i = 0;
+    while (data[i].epoch < startEpoch) {
+        i++;
+    }
+
+    return data.slice(i, data.length);
 }
 
 function getAverageDataPoint(dataPointsToAverage) {
