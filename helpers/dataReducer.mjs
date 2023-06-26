@@ -11,7 +11,7 @@ export function getDataByPeriod(data, periodInMinutes) {
 
 export function reduceData(data, maxNumberOfDataPointsPerAverage, maxDataPointTimeSpanMillis) {
     data.forEach(item => {
-        item.dateTime = new Date(`${item.date}T${item.time}`)
+        item.dateTime = new Date(`${item.date}T${item.time}.000Z`)
     })
 
     const averagedDataPoints = [];

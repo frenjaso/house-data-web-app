@@ -1,5 +1,6 @@
 export function getTimeString(date) {
     let currentHour = String(date.getHours()).padStart(2, '0');
+    let currentUtcHour = String(date.getUTCHours()).padStart(2, '0');
     let currentMinute = String(date.getMinutes()).padStart(2,"0");
     let currentSecond = String(date.getSeconds()).padStart(2,"0");
 

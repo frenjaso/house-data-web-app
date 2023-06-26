@@ -6,7 +6,8 @@
   "scripts": {
     "debug": "/usr/local/bin/node app.mjs",
     "start": "node app.mjs",
-    "dataReducerTest": "/usr/local/bin/node tests/dataReducerTest.mjs"
+    "dataReducerTest": "/usr/local/bin/node tests/dataReducerTest.mjs",
+    "pstDateTest": "/usr/local/bin/node tests/pstDateTest.mjs"
   },
   "author": "",
   "license": "ISC",
