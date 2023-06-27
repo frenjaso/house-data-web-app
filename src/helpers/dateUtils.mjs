@@ -1,4 +1,6 @@
-export function getDisplayDateTime(date) {
+export function getDisplayDateTime(epoch) {
+    const date = getLocalizedDate(epoch, "America/Los_Angeles")
+
     let currentDay= String(date.getDate());
     let currentMonth = String(date.getMonth()+1)
 
@@ -44,4 +46,9 @@ export function getUtcDateString(date) {
 
     let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
     return currentDate;
+}
+
+function getLocalizedDate(epoch, timezone) {
+    const date = new Date(epoch);
+    return new Date(date.toLocaleString("en-US", { timeZone: timezone }));
 }
