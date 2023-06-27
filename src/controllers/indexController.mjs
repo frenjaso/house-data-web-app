@@ -4,13 +4,9 @@ import { getData } from '../helpers/particulateDataRetriever.mjs'
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const periodInMinutes = req.query.periodInMinutes != null ? req.query.periodInMinutes : 1;
-    const daysOfData = req.query.daysOfData != null ? Number.parseFloat(req.query.daysOfData) : 1;
     const autoReload = req.query.autoReload === 'true';
 
-    const items = await getData(periodInMinutes, daysOfData);
-
-    res.render('index', { items: JSON.stringify(items), autoReload: autoReload });
+    res.render('index', { autoReload: autoReload });
 });
 
 router.get('/api/particulate', async (req, res) => {
