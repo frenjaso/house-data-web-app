@@ -78,7 +78,7 @@ function getAverageDataPoint(dataPointsToAverage) {
 
     return {
         epoch: averageDateTime.getTime(),
-        pmt10: pmt10Average,
-        pmt25: pmt25Average
+        pmt10: Math.round(pmt10Average * 10) / 10,
+        pmt25: Math.round(pmt25Average * 10) / 10
     }
 }
