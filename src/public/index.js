@@ -12,12 +12,17 @@
     );
 
     let items = [];
+    let hasLoaded = false;
 
     do {
         try {
             const newItems = await fetchItems();
             const dataUnchanged = newItems.length === items.length && newItems[newItems.length - 1].epoch === items[items.length - 1].epoch;
             if (!dataUnchanged) {
+                if (!hasLoaded) {
+                    document.getElementById("loaderContainer").remove();
+                }
+                hasLoaded = true;
                 chart.data = buildChartData(newItems);
                 chart.update();
                 items = newItems;
