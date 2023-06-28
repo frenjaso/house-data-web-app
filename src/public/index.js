@@ -6,7 +6,7 @@
             type: 'line',
             data: {},
             options: {
-                maintainAspectRatio: true
+                maintainAspectRatio: false
             }
         }
     );
