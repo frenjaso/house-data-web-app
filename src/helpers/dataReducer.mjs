@@ -13,6 +13,39 @@ export function getDataByPeriod(data, periodInMinutes, daysOfData) {
     return reducedData;
 }
 
+export function getSmoothedDataByPeriod(data, periodInMinutes, daysOfData, pointsPerSmoothPoint) {
+    const reducedData = getRawReducedDataByPeriod(data, periodInMinutes, daysOfData);
+    const smoothedData = [];
+
+    let offset = pointsPerSmoothPoint - 1;
+    for (let i = pointsPerSmoothPoint - 1; i < reducedData.length; i++) {
+
+        let pmt10Sum = 0;
+        let pmt25Sum = 0;
+        for (let j = i - offset; j <= i; j++) {
+            pmt10Sum += reducedData[j].pmt10;
+            pmt25Sum += reducedData[j].pmt25;
+        }
+
+        const pmt10Average = pmt10Sum / pointsPerSmoothPoint;
+        const pmt25Average = pmt25Sum / pointsPerSmoothPoint;
+        const smoothedDataPoint = {
+            epoch: reducedData[i].epoch,
+            pmt10: Math.round(pmt10Average * 100) / 100,
+            pmt25: Math.round(pmt25Average * 100) / 100
+        }
+        smoothedData.push(smoothedDataPoint);
+    }
+
+    smoothedData.forEach(item => {
+        const date = new Date(item.epoch);
+        item.date = getDateString(date);
+        item.time = getTimeString(date);
+        item.datetime = getDisplayDateTime(date)
+    })
+    return smoothedData;
+}
+
 function getRawReducedDataByPeriod(data, periodInMinutes, daysOfData) {
     data.forEach(item => {
         item.epoch = new Date(`${item.date}T${item.time}.000Z`).getTime()
@@ -78,7 +111,7 @@ function getAverageDataPoint(dataPointsToAverage) {
 
     return {
         epoch: averageDateTime.getTime(),
-        pmt10: Math.round(pmt10Average * 10) / 10,
-        pmt25: Math.round(pmt25Average * 10) / 10
+        pmt10: Math.round(pmt10Average * 100) / 100,
+        pmt25: Math.round(pmt25Average * 100) / 100
     }
 }

@@ -1,8 +1,8 @@
 import { getDynamoDocumentClient } from "./clients/clients.mjs";
-import { getDataByPeriod } from "../helpers/dataReducer.mjs";
+import { getDataByPeriod, getSmoothedDataByPeriod } from "../helpers/dataReducer.mjs";
 import { particulateDataRequest } from "./clients/dynamoDbClient.mjs";
 
-export async function getData(periodInMinutes, daysOfData) {
+export async function getData(periodInMinutes, daysOfData, movingAverage) {
     const documentClient = getDynamoDocumentClient();
 
     const requests = getRequestArray(documentClient, Math.ceil(daysOfData + 1));
@@ -17,7 +17,7 @@ export async function getData(periodInMinutes, daysOfData) {
 
     const itemsArrays = responses.map(response => response.Items);
     const concatenatedData = itemsArrays.flat(1);
-    const reducedData = getDataByPeriod(concatenatedData, periodInMinutes, daysOfData);
+    const reducedData = getSmoothedDataByPeriod(concatenatedData, periodInMinutes, daysOfData, movingAverage);
 
     const end = Date.now();
 

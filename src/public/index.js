@@ -46,6 +46,6 @@ function buildChartData(items) {
 }
 
 async function fetchItems() {
-    const response = await fetch(`/api/particulate?periodInMinutes=${periodInMinutes}&daysOfData=${daysOfData}`);
+    const response = await fetch(`/api/particulate?periodInMinutes=${periodInMinutes}&daysOfData=${daysOfData}&movingAverage=${movingAverage}`);
     return await response.json();
 }
