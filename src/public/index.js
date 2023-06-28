@@ -4,7 +4,10 @@
         document.getElementById('particulateChart'),
         {
             type: 'line',
-            data: {}
+            data: {},
+            options: {
+                maintainAspectRatio: true
+            }
         }
     );
 
